@@ -3,7 +3,9 @@
 (** [index c] is the 0-based index of [c] in the alphabet.
     Requires: [c] is an uppercase letter in A..Z. *)
 let index (c:char) : int =
-  failwith "Unimplemented"
+  (*failwith "Unimplemented"*)
+  Char.code c - 65
+
 
 (** [map_r_to_l wiring top_letter input_pos] is the left-hand output position
     at which current would appear when current enters at right-hand input
