@@ -3,7 +3,6 @@
 (** [index c] is the 0-based index of [c] in the alphabet.
     Requires: [c] is an uppercase letter in A..Z. *)
 let index (c:char) : int =
-  (*failwith "Unimplemented"*)
   Char.code c - 65
 
 

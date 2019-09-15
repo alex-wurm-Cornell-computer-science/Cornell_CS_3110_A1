@@ -46,10 +46,7 @@ let index_tests = [
   make_index_test "index of W is 22" 'W' 22;
   make_index_test "index of X is 23" 'X' 23;
   make_index_test "index of Y is 24" 'Y' 24;
-  make_index_test "index of Z is 25" 'Z' 25;
-
-
-  
+  make_index_test "index of Z is 25" 'Z' 25;  
 ]
 
 (** [make_map_rl_test name wires top_let pos expected_output] constructs an OUnit
@@ -85,12 +82,15 @@ let map_rl_tests = [
   make_map_rl_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
   top letter 'A' should cause current to flow from position 5 to position 5."
   "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'A' 5 5;
-  (*make_map_rl_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
-  top letter 'B' should cause current to flow from position 13 to position ?."
-  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'B' 0 0;*)
-  (*make_map_rl_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
-  top letter 'C' should cause current to flow from position 25 to position ?."
-  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'C' 0 0;*)
+  make_map_rl_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter 'B' should cause current to flow from position 13 to position 13."
+  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'B' 13 13;
+  make_map_rl_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter 'C' should cause current to flow from position 25 to position 24"
+  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'C' 25 24;
+  make_map_rl_test "The wiring specification BDFHJLCPRTXVZNYEIWGAKMUSQO with
+  top letter 'O' should cause current to flow from position 14 to position 17."
+  "BDFHJLCPRTXVZNYEIWGAKMUSQO" 'O' 14 17;
 ]
 
 let make_map_lr_test
@@ -114,6 +114,21 @@ let map_lr_tests = [
   make_map_lr_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
   top letter ‘B’ should cause current to flow from position 0 to position 20."
   "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'B' 0 21;
+  make_map_lr_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
+  top letter ‘D’ should cause current to flow from position 3 to position 3."
+  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'D' 3 2;
+  make_map_lr_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter 'A' should cause current to flow from position 2 to position 2."
+  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'A' 2 2;
+  make_map_lr_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter 'B' should cause current to flow from position 14 to position 14."
+  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'B' 14 14;
+  make_map_lr_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter 'C' should cause current to flow from position 23 to position 23."
+  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'C' 23 23;
+  make_map_lr_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
+  top letter 'F' should cause current to flow from position 10 to position 14."
+  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'F' 10 14;
 ]
 
 let map_refl_tests = [
