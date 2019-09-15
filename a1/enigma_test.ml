@@ -70,14 +70,50 @@ let map_rl_tests = [
   make_map_rl_test "The wiring specification ABCDEFGHIJKLMNOPQRSTUVWXYZ with
   top letter ‘A’ should cause current to flow from position 0 to position 0."
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 'A' 0 0;
-  (*make_map_rl_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
+  make_map_rl_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
+  top letter ‘A’ should cause current to flow from position 0 to position 4."
+  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'A' 0 4;
+  make_map_rl_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
+  top letter ‘B’ should cause current to flow from position 0 to position 19."
+  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'B' 0 9;
+  make_map_rl_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
   top letter ‘B’ should cause current to flow from position 1 to position 11."
-  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'B' 1 11;*)
-
+  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'B' 1 11;
+  make_map_rl_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
+  top letter ‘K’ should cause current to flow from position 16 to position 20."
+  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'K' 16 20;
+  make_map_rl_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter 'A' should cause current to flow from position 5 to position 5."
+  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'A' 5 5;
+  (*make_map_rl_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter 'B' should cause current to flow from position 13 to position ?."
+  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'B' 0 0;*)
+  (*make_map_rl_test "The wiring specification BACDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter 'C' should cause current to flow from position 25 to position ?."
+  "BACDEFGHIJKLMNOPQRSTUVWXYZ" 'C' 0 0;*)
 ]
+
+let make_map_lr_test
+    (name : string)
+    (wires : string)
+    (top_let : char)
+    (pos : int)
+    (expected_output : int) : test =
+  name >:: (fun _ ->
+    (*the [printer] tells OUnit how to convert the output to a string *)
+    assert_equal expected_output (map_l_to_r wires top_let pos) ~printer:string_of_int)
 
 let map_lr_tests = [
   (* TODO: add your tests here *)
+  make_map_lr_test "The wiring specification ABCDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter ‘A’ should cause current to flow from position 0 to position 0."
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 'A' 0 0;
+  make_map_lr_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
+  top letter ‘A’ should cause current to flow from position 0 to position 20."
+  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'A' 0 20;
+  make_map_lr_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
+  top letter ‘B’ should cause current to flow from position 0 to position 20."
+  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'B' 0 21;
 ]
 
 let map_refl_tests = [

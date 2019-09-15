@@ -18,32 +18,30 @@ let index (c:char) : int =
     	[top_letter] is in A..Z, and 
     	[input_pos] is in 0..25. *)
 let map_r_to_l (wiring:string) (top_letter:char) (input_pos:int) : int =
-  (*failwith "Unimplemented"*)
 
-  (*let plaintext = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" in*)
   let offset = index top_letter in
 
   let rhc =  if input_pos + offset < 26 then input_pos + offset 
-  else input_pos + offset - 25 in
+  else input_pos + offset - 26 in
 
   let cipher_number = String.get wiring rhc in
 
   let lhc = index cipher_number in
 
-  let output = lhc - offset in
+  let output = if lhc - offset > -1 then lhc - offset
+  else lhc - offset + 26 in
 
   output
 
 (** [map_l_to_r] computes the same function as [map_r_to_l], except 
     for current flowing left to right. *)
 let map_l_to_r (wiring:string) (top_letter:char) (input_pos:int) : int =
-  (*failwith "Unimplemented"*)
 
   let plaintext = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" in
   let offset = index top_letter in
 
   let lhc = if input_pos + offset < 26 then input_pos + offset 
-  else input_pos + offset - 25 in
+  else input_pos + offset - 26 in
 
   let input_letter = String.get plaintext lhc in
 
@@ -53,7 +51,8 @@ let map_l_to_r (wiring:string) (top_letter:char) (input_pos:int) : int =
 
   let rhc = index w in
 
-  let output = rhc - offset in
+  let output = if rhc - offset > -1 then rhc - offset
+  else rhc - offset + 26 in
 
   output
 
