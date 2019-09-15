@@ -93,6 +93,9 @@ let map_rl_tests = [
   "BDFHJLCPRTXVZNYEIWGAKMUSQO" 'O' 14 17;
 ]
 
+(** [make_map_lr_test name wires top_let pos expected_output] constructs an OUnit
+    test named [name] that asserts the quality of [expected_output]
+    with [map_l_to_r wires top_let pos. *)
 let make_map_lr_test
     (name : string)
     (wires : string)
@@ -131,8 +134,50 @@ let map_lr_tests = [
   "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'F' 10 14;
 ]
 
+(** [make_reflector_test name wires pos expected_output] constructs an OUnit
+    test named [name] that asserts the quality of [expected_output]
+    with [map_refl wires pos. *)
+let make_reflector_test
+    (name : string)
+    (wires : string)
+    (pos : int)
+    (expected_output : int) : test = 
+  name >:: (fun _ ->
+    (*the [printer] tells OUnit how to convert the output to a string *)
+    assert_equal expected_output (map_refl wires pos) ~printer:string_of_int)
+
 let map_refl_tests = [
   (* TODO: add your tests here *)
+  make_reflector_test "Reflection of ABCDEFGHIJKLMNOPQRSTUVWXYZ pos = 0 is 0."
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 0 0;
+  make_reflector_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 0 is 24."
+  "YRUHQSLDPXNGOKMIEBFZCWVJAT" 0 24;
+  make_reflector_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 24 is 0."
+  "YRUHQSLDPXNGOKMIEBFZCWVJAT" 24 0;
+  make_reflector_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 0 is 5."
+  "FVPJIAOYEDRZXWGCTKUQSBNMHL" 0 5;
+  make_reflector_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 5 is 0."
+  "FVPJIAOYEDRZXWGCTKUQSBNMHL" 5 0;
+  make_reflector_test "Reflection of EJMZALYXVBWFCRQUONTSPIKHGD pos = 1 is 9."
+  "EJMZALYXVBWFCRQUONTSPIKHGD" 1 9;
+  make_reflector_test "Reflection of EJMZALYXVBWFCRQUONTSPIKHGD pos = 9 is 1."
+  "EJMZALYXVBWFCRQUONTSPIKHGD" 9 1;
+  make_reflector_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 6 is 11."
+  "YRUHQSLDPXNGOKMIEBFZCWVJAT" 6 11;
+  make_reflector_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 11 is 6."
+  "YRUHQSLDPXNGOKMIEBFZCWVJAT" 11 6;
+  make_reflector_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 11 is 25."
+  "FVPJIAOYEDRZXWGCTKUQSBNMHL" 11 25;
+  make_reflector_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 11 is 25."
+  "FVPJIAOYEDRZXWGCTKUQSBNMHL" 25 11;
+  make_reflector_test "Reflection of ENKQAUYWJICOPBLMDXZVFTHRGS pos = 20 is 5."
+  "ENKQAUYWJICOPBLMDXZVFTHRGS" 20 5;
+  make_reflector_test "Reflection of ENKQAUYWJICOPBLMDXZVFTHRGS pos = 5 is 20."
+  "ENKQAUYWJICOPBLMDXZVFTHRGS" 5 20;
+  make_reflector_test "Reflection of RDOBJNTKVEHMLFCWZAXGYIPSUQ pos = 21 is 8."
+  "RDOBJNTKVEHMLFCWZAXGYIPSUQ" 21 8;
+  make_reflector_test "Reflection of RDOBJNTKVEHMLFCWZAXGYIPSUQ pos = 8 is 21."
+  "RDOBJNTKVEHMLFCWZAXGYIPSUQ" 8 21;
 ]
 
 let map_plug_tests = [

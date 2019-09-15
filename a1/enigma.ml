@@ -62,7 +62,8 @@ let map_l_to_r (wiring:string) (top_letter:char) (input_pos:int) : int =
     	[wiring] is a valid reflector specification, and 
       [input_pos] is in 0..25. *)
 let map_refl (wiring:string) (input_pos:int) : int =
-  failwith "Unimplemented"
+
+  map_r_to_l wiring 'A' input_pos
 
 (** [map_plug plugs c] is the letter to which [c] is transformed
     by the plugboard [plugs].
