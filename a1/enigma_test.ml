@@ -52,8 +52,28 @@ let index_tests = [
   
 ]
 
+(** [make_map_rl_test name wires top_let pos expected_output] constructs an OUnit
+    test named [name] that asserts the quality of [expected_output]
+    with [map_r_to_l wires top_let pos. *)
+let make_map_rl_test
+    (name : string)
+    (wires : string)
+    (top_let : char)
+    (pos : int)
+    (expected_output : int) : test =
+  name >:: (fun _ ->
+    (* the [printer] tells OUnit how to convert the output to a string *)
+    assert_equal expected_output (map_r_to_l wires top_let pos) ~printer:string_of_int)
+
 let map_rl_tests = [
   (* TODO: add your tests here *)
+  make_map_rl_test "The wiring specification ABCDEFGHIJKLMNOPQRSTUVWXYZ with
+  top letter ‘A’ should cause current to flow from position 0 to position 0."
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 'A' 0 0;
+  (*make_map_rl_test "The wiring specification EKMFLGDQVZNTOWYHXUSPAIBRCJ with
+  top letter ‘B’ should cause current to flow from position 1 to position 11."
+  "EKMFLGDQVZNTOWYHXUSPAIBRCJ" 'B' 1 11;*)
+
 ]
 
 let map_lr_tests = [
