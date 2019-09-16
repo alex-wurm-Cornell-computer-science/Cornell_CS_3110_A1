@@ -71,7 +71,6 @@ let map_refl (wiring:string) (input_pos:int) : int =
       [plugs] is a valid plugboard, and
       [c] is in A..Z. *)
 let rec map_plug (plugs:(char*char) list) (c:char) =
-  (*failwith "Unimplemented"*)
 
   let rec plug_match (plug_list:(char*char) list) (input:char)= 
     match plug_list with
@@ -81,7 +80,7 @@ let rec map_plug (plugs:(char*char) list) (c:char) =
                 else plug_match t input
   in
 
-plug_match plugs c
+  plug_match plugs c
 
 (** [rotor] represents an Enigma rotor. *)
 type rotor = {
@@ -124,7 +123,35 @@ type config = {
       [config] is a valid configuration, and
       [c] is in A..Z. *)
 let cipher_char (config:config) (c:char) : char =
-  failwith "Unimplemented"
+
+  let rev_rotors = List.rev config.rotors in
+
+  (** [map_rotors_r_to_l] is the output position from traversing the series of 
+  rotors [config.rotors] right-to-left given the input letter [c]. *)
+  let rec map_rotors_r_to_l (rotors : (oriented_rotor) list) (input : int) =
+    match rev_rotors with
+      | [] -> input
+      | h::t -> map_rotors_r_to_l t (map_r_to_l h.rotor.wiring h.top_letter input)
+  in
+
+  (** [map_rotors_l_to_r] is the output position from traversing the series of 
+  rotors [config.rotors] left-to-right given the input letter [c]. *)
+  let rec map_rotors_l_to_r (rotors : (oriented_rotor) list) (input : int) =
+    match config.rotors with 
+      | [] -> input
+      | h::t -> map_rotors_l_to_r t (map_r_to_l h.rotor.wiring h.top_letter input)
+  in
+
+  c 
+  |> map_plug config.plugboard 
+  |> index 
+  |> map_rotors_r_to_l config.rotors 
+  |> map_refl config.refl
+  |> map_rotors_l_to_r config.rotors
+  |> (+) 65
+  |> Char.chr
+  |> map_plug config.plugboard
+
 
 (** [step config] is the new configuration to which the Enigma machine 
     transitions when it steps beginning in configuration [config].
@@ -141,4 +168,4 @@ let rec cipher (config:config) (s:string) : string =
   failwith "Unimplemented"
 
 (* TODO: set the value below *)
-let hours_worked = -1
+let hours_worked = 7

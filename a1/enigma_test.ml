@@ -180,13 +180,15 @@ let map_refl_tests = [
   "RDOBJNTKVEHMLFCWZAXGYIPSUQ" 8 21;
 ]
 
+(** [make_plug_test name plugs input expected_output] constructs an OUnit
+    test named [name] that asserts the quality of [expected_output]
+    with [map_plug plugs input. *)
 let make_plug_test
     (name : string)
     (plugs: (char*char) list)
     (input : char)
     (expected_output : char) : test = 
   name >:: (fun _ ->
-    (*the [printer] tells OUnit how to convert the output to a string *)
     assert_equal expected_output (map_plug plugs input))
 
 let map_plug_tests = [
@@ -227,8 +229,70 @@ let map_plug_tests = [
   ('W','X'); ('Y','Z')] 'R' 'Q';
 ]
 
+(** [make_cipher_char_test name config input expected_output] constructs an OUnit
+    test named [name] that asserts the quality of [expected_output]
+    with [cipher_char config input. *)
+let make_cipher_char_test
+    (name : string)
+    (config : config)
+    (input : char)
+    (expected_output : char) : test =
+  name >:: (fun _ ->
+      assert_equal expected_output (cipher_char config input))
+
+(* Rotors, Oriented Rotors, and Configs for use in
+cipher_car_tests. *)
+
+let config1 = {
+  refl = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  rotors = [];
+  plugboard = [];
+}
+
+let rotor1 = {
+  wiring = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
+  turnover = 'A';
+}
+
+let rotor2 = {
+  wiring = "AJDKSIRUXBLHWTMCQGZNPYFVOE";
+  turnover = 'A';
+}
+
+let rotor3 = {
+  wiring = "BDFHJLCPRTXVZNYEIWGAKMUSQO";
+  turnover = 'A';
+}
+
+let oriented_rotor1 = {
+  rotor = rotor1;
+  top_letter = 'A';
+}
+
+let oriented_rotor2 = {
+  rotor = rotor2;
+  top_letter = 'A';
+}
+
+let oriented_rotor3 = {
+  rotor = rotor3;
+  top_letter = 'A';
+}
+
+let config2 = {
+  refl = "YRUHQSLDPXNGOKMIEBFZCWVJAT";
+  rotors = [oriented_rotor1; oriented_rotor2; oriented_rotor3];
+  plugboard = [];
+}
+
 let cipher_char_tests = [
   (* TODO: add your tests here *)
+  make_cipher_char_test "Empty plugboard & no rotors should behave like 
+  identify function 'A' -> 'A'" config1 'A' 'A';
+  make_cipher_char_test "Empty plugboard & no rotors should behave like 
+  identify function 'Z' -> 'Z'" config1 'Z' 'Z';
+  make_cipher_char_test "Reflector B; Rotors I(A), II(A), III(A);
+  Empty Plugboard should translate 'G' -> 'P'." config2 'G' 'P';
 ]
 
 let step_tests = [
