@@ -137,7 +137,7 @@ let map_lr_tests = [
 (** [make_reflector_test name wires pos expected_output] constructs an OUnit
     test named [name] that asserts the quality of [expected_output]
     with [map_refl wires pos. *)
-let make_reflector_test
+let make_refl_test
     (name : string)
     (wires : string)
     (pos : int)
@@ -148,40 +148,83 @@ let make_reflector_test
 
 let map_refl_tests = [
   (* TODO: add your tests here *)
-  make_reflector_test "Reflection of ABCDEFGHIJKLMNOPQRSTUVWXYZ pos = 0 is 0."
+  make_refl_test "Reflection of ABCDEFGHIJKLMNOPQRSTUVWXYZ pos = 0 is 0."
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 0 0;
-  make_reflector_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 0 is 24."
+  make_refl_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 0 is 24."
   "YRUHQSLDPXNGOKMIEBFZCWVJAT" 0 24;
-  make_reflector_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 24 is 0."
+  make_refl_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 24 is 0."
   "YRUHQSLDPXNGOKMIEBFZCWVJAT" 24 0;
-  make_reflector_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 0 is 5."
+  make_refl_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 0 is 5."
   "FVPJIAOYEDRZXWGCTKUQSBNMHL" 0 5;
-  make_reflector_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 5 is 0."
+  make_refl_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 5 is 0."
   "FVPJIAOYEDRZXWGCTKUQSBNMHL" 5 0;
-  make_reflector_test "Reflection of EJMZALYXVBWFCRQUONTSPIKHGD pos = 1 is 9."
+  make_refl_test "Reflection of EJMZALYXVBWFCRQUONTSPIKHGD pos = 1 is 9."
   "EJMZALYXVBWFCRQUONTSPIKHGD" 1 9;
-  make_reflector_test "Reflection of EJMZALYXVBWFCRQUONTSPIKHGD pos = 9 is 1."
+  make_refl_test "Reflection of EJMZALYXVBWFCRQUONTSPIKHGD pos = 9 is 1."
   "EJMZALYXVBWFCRQUONTSPIKHGD" 9 1;
-  make_reflector_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 6 is 11."
+  make_refl_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 6 is 11."
   "YRUHQSLDPXNGOKMIEBFZCWVJAT" 6 11;
-  make_reflector_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 11 is 6."
+  make_refl_test "Reflection of YRUHQSLDPXNGOKMIEBFZCWVJAT pos = 11 is 6."
   "YRUHQSLDPXNGOKMIEBFZCWVJAT" 11 6;
-  make_reflector_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 11 is 25."
+  make_refl_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 11 is 25."
   "FVPJIAOYEDRZXWGCTKUQSBNMHL" 11 25;
-  make_reflector_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 11 is 25."
+  make_refl_test "Reflection of FVPJIAOYEDRZXWGCTKUQSBNMHL pos = 11 is 25."
   "FVPJIAOYEDRZXWGCTKUQSBNMHL" 25 11;
-  make_reflector_test "Reflection of ENKQAUYWJICOPBLMDXZVFTHRGS pos = 20 is 5."
+  make_refl_test "Reflection of ENKQAUYWJICOPBLMDXZVFTHRGS pos = 20 is 5."
   "ENKQAUYWJICOPBLMDXZVFTHRGS" 20 5;
-  make_reflector_test "Reflection of ENKQAUYWJICOPBLMDXZVFTHRGS pos = 5 is 20."
+  make_refl_test "Reflection of ENKQAUYWJICOPBLMDXZVFTHRGS pos = 5 is 20."
   "ENKQAUYWJICOPBLMDXZVFTHRGS" 5 20;
-  make_reflector_test "Reflection of RDOBJNTKVEHMLFCWZAXGYIPSUQ pos = 21 is 8."
+  make_refl_test "Reflection of RDOBJNTKVEHMLFCWZAXGYIPSUQ pos = 21 is 8."
   "RDOBJNTKVEHMLFCWZAXGYIPSUQ" 21 8;
-  make_reflector_test "Reflection of RDOBJNTKVEHMLFCWZAXGYIPSUQ pos = 8 is 21."
+  make_refl_test "Reflection of RDOBJNTKVEHMLFCWZAXGYIPSUQ pos = 8 is 21."
   "RDOBJNTKVEHMLFCWZAXGYIPSUQ" 8 21;
 ]
 
+let make_plug_test
+    (name : string)
+    (plugs: (char*char) list)
+    (input : char)
+    (expected_output : char) : test = 
+  name >:: (fun _ ->
+    (*the [printer] tells OUnit how to convert the output to a string *)
+    assert_equal expected_output (map_plug plugs input))
+
 let map_plug_tests = [
   (* TODO: add your tests here *)
+  make_plug_test "Empty list & input 'A' should return 'A'." [] 'A' 'A';
+  make_plug_test "Empty list & input 'Z' should return 'Z'." [] 'Z' 'Z';
+  make_plug_test "[('A','B')] & input 'A' should return 'B'." 
+  [('A','B')] 'A' 'B';
+  make_plug_test "[('B','A')] & input 'A' should return 'B'." 
+  [('B','A')] 'A' 'B';
+  make_plug_test "[('A','B')] & input 'B' should return 'A'." 
+  [('A','B')] 'B' 'A';
+  make_plug_test "[('B','A')] & input 'B' should return 'A'." 
+  [('B','A')] 'B' 'A';
+  make_plug_test "[('A','Z'); ('X','Y')] & input 'A' should return 'Z'."
+  [('A','Z'); ('X','Y')] 'A' 'Z';
+  make_plug_test "[('A','Z'); ('X','Y')] & input 'Z' should return 'A'."
+  [('A','Z'); ('X','Y')] 'Z' 'A';
+  make_plug_test "[('A','Z'); ('X','Y')] & input 'X' should return 'Y'."
+  [('A','Z'); ('X','Y')] 'X' 'Y';
+  make_plug_test "[('A','Z'); ('X','Y')] & input 'Y' should return 'X'."
+  [('A','Z'); ('X','Y')] 'Y' 'X';
+  make_plug_test "[('Y','X'); ('Z','A')] & input 'A' should return 'Z'."
+  [('Y','X'); ('Z','A')] 'A' 'Z';
+  make_plug_test "[('Y','X'); ('Z','A')] & input 'Z' should return 'A'."
+  [('Y','X'); ('Z','A')] 'Z' 'A';
+  make_plug_test "[('Y','X'); ('Z','A')] & input 'X' should return 'Y'."
+  [('Y','X'); ('Z','A')] 'X' 'Y';
+  make_plug_test "[('Y','X'); ('Z','A')] & input 'Y' should return 'X'."
+  [('Y','X'); ('Z','A')] 'Y' 'X';
+  make_plug_test "Every sequential pair of letters in the alphabet has a plug
+  & input 'Q' should return 'R'." [('A','B'); ('C','D'); ('E','F'); ('G','H');
+  ('I','J'); ('K','L'); ('M','N'); ('O','P'); ('Q','R'); ('S','T'); ('U','V');
+  ('W','X'); ('Y','Z')] 'Q' 'R';
+  make_plug_test "Every sequential pair of letters in the alphabet has a plug
+  & input 'R' should return 'Q'." [('A','B'); ('C','D'); ('E','F'); ('G','H');
+  ('I','J'); ('K','L'); ('M','N'); ('O','P'); ('Q','R'); ('S','T'); ('U','V');
+  ('W','X'); ('Y','Z')] 'R' 'Q';
 ]
 
 let cipher_char_tests = [

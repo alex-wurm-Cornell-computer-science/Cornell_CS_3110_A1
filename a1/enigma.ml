@@ -71,7 +71,17 @@ let map_refl (wiring:string) (input_pos:int) : int =
       [plugs] is a valid plugboard, and
       [c] is in A..Z. *)
 let rec map_plug (plugs:(char*char) list) (c:char) =
-  failwith "Unimplemented"
+  (*failwith "Unimplemented"*)
+
+  let rec plug_match (plug_list:(char*char) list) (input:char)= 
+    match plug_list with
+      | [] -> input
+      | (x,y)::t -> if input = x then y
+                else if input = y then x
+                else plug_match t input
+  in
+
+plug_match plugs c
 
 (** [rotor] represents an Enigma rotor. *)
 type rotor = {
