@@ -124,12 +124,10 @@ type config = {
       [c] is in A..Z. *)
 let cipher_char (config:config) (c:char) : char =
 
-  let rev_rotors = List.rev config.rotors in
-
   (** [map_rotors_r_to_l] is the output position from traversing the series of 
   rotors [config.rotors] right-to-left given the input letter [c]. *)
   let rec map_rotors_r_to_l (rotors : (oriented_rotor) list) (input : int) =
-    match rev_rotors with
+    match rotors with
       | [] -> input
       | h::t -> map_rotors_r_to_l t (map_r_to_l h.rotor.wiring h.top_letter input)
   in
@@ -137,21 +135,22 @@ let cipher_char (config:config) (c:char) : char =
   (** [map_rotors_l_to_r] is the output position from traversing the series of 
   rotors [config.rotors] left-to-right given the input letter [c]. *)
   let rec map_rotors_l_to_r (rotors : (oriented_rotor) list) (input : int) =
-    match config.rotors with 
+    match rotors with 
       | [] -> input
-      | h::t -> map_rotors_l_to_r t (map_r_to_l h.rotor.wiring h.top_letter input)
+      | h::t -> map_rotors_l_to_r t (map_l_to_r h.rotor.wiring h.top_letter input)
   in
+
+  let rev_rotors = List.rev config.rotors in
 
   c 
   |> map_plug config.plugboard 
   |> index 
-  |> map_rotors_r_to_l config.rotors 
+  |> map_rotors_r_to_l rev_rotors 
   |> map_refl config.refl
   |> map_rotors_l_to_r config.rotors
   |> (+) 65
   |> Char.chr
   |> map_plug config.plugboard
-
 
 (** [step config] is the new configuration to which the Enigma machine 
     transitions when it steps beginning in configuration [config].

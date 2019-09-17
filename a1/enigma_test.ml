@@ -293,6 +293,10 @@ let cipher_char_tests = [
   identify function 'Z' -> 'Z'" config1 'Z' 'Z';
   make_cipher_char_test "Reflector B; Rotors I(A), II(A), III(A);
   Empty Plugboard should translate 'G' -> 'P'." config2 'G' 'P';
+  make_cipher_char_test "Reflector B; Rotors I(A), II(A), III(A);
+  Empty Plugboard should translate 'B' -> 'E'." config2 'B' 'E';
+  make_cipher_char_test "Reflector B; Rotors I(A), II(A), III(A);
+  Empty Plugboard should translate 'W' -> 'I'." config2 'W' 'I';
 ]
 
 let step_tests = [
