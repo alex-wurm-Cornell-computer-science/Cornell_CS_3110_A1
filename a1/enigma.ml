@@ -167,4 +167,4 @@ let rec cipher (config:config) (s:string) : string =
   failwith "Unimplemented"
 
 (* TODO: set the value below *)
-let hours_worked = 7
+let hours_worked = 8

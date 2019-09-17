@@ -285,6 +285,12 @@ let config2 = {
   plugboard = [];
 }
 
+let config3 = {
+  refl = "YRUHQSLDPXNGOKMIEBFZCWVJAT";
+  rotors = [oriented_rotor1; oriented_rotor2; oriented_rotor3];
+  plugboard = [('A','Z'); ('B', 'X'); ('C','H'); ('J','P')];
+}
+
 let cipher_char_tests = [
   (* TODO: add your tests here *)
   make_cipher_char_test "Empty plugboard & no rotors should behave like 
@@ -297,6 +303,14 @@ let cipher_char_tests = [
   Empty Plugboard should translate 'B' -> 'E'." config2 'B' 'E';
   make_cipher_char_test "Reflector B; Rotors I(A), II(A), III(A);
   Empty Plugboard should translate 'W' -> 'I'." config2 'W' 'I';
+  make_cipher_char_test "Reflector B; Rotors I(A), II(A), III(A);
+  config3 Plugboard should translate 'A' -> 'C'." config3 'A' 'C';
+  make_cipher_char_test "Reflector B; Rotors I(A), II(A), III(A);
+  config3 Plugboard should translate 'X' -> 'E'." config3 'X' 'E';
+  make_cipher_char_test "Reflector B; Rotors I(A), II(A), III(A);
+  config3 Plugboard should translate 'H' -> 'P'." config3 'H' 'P';
+  make_cipher_char_test "Reflector B; Rotors I(A), II(A), III(A);
+  config3 Plugboard should translate 'J' -> 'G'." config3 'J' 'G';
 ]
 
 let step_tests = [
