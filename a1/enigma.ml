@@ -1,4 +1,4 @@
-(** @author TODO Name (netid) *)
+(** @author Alex Wurm (aew98) *)
 
 (** [index c] is the 0-based index of [c] in the alphabet.
     Requires: [c] is an uppercase letter in A..Z. *)
